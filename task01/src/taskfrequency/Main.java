@@ -6,21 +6,17 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // if (args.length != 1) {
-        //     System.out.println("Usage: <file_name.txt>");
-        // } else {
-    
-        // }
-
-        try {
-            List<String> wordList = TextProcessor.buffAddWordsToList(Constants.TESTFILE);
-            System.out.println(wordList);
-        } catch (IOException e) {
-            System.out.println("File not found.");
-            System.exit(1);
+        if (args.length != 1) {
+            System.out.println("Usage: <file_name.txt>");
+        } else {
+            String filePath = Constants.DEFAULT_DIRECTORY + File.separator + args[0];
+            try {
+                List<String> wordList = TextProcessor.buffAddWordsToList(filePath);
+                TextProcessor.calculateWordFrequency(wordList);
+            } catch (IOException e) {
+                System.out.println("File not found.");
+                System.exit(1);
+            }
         }
-
-        // String testString = "Test.,:!-(){}[]'\" TEST";
-        // TextProcessor.parseLine(testString);    
     }
 }

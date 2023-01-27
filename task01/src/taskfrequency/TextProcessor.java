@@ -4,16 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TextProcessor {
-
-    public Map<String, Integer> wordFrequencies = new HashMap<>();
-
     public static List<String> buffAddWordsToList(String filePath) throws IOException {
         File file = new File(filePath);
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -39,14 +38,34 @@ public class TextProcessor {
         Map<String, Float> wordFrequencies = new HashMap<>();
         Map<String, Integer> wordCounts = new HashMap<>();
 
-        Integer wordCount = words.size();
+        Integer totalWordCount = wordList.size();
         Float wordFrequency = 0.0f;
 
-        // Populate the map of words
         for (String word: wordList) {
-            
+            wordCounts.merge(word, 1, 
+                (a, b) -> a + b
+            );
         }
 
-        // Then calculate word frequency for each word
+        for (String word: wordCounts.keySet()) {
+            wordFrequency = (float) wordCounts.get(word) / (float) totalWordCount;
+            wordFrequencies.put(word, wordFrequency);
+        }
+
+        // Cheating lol
+        wordFrequencies.remove("");
+
+        long maxSize = 10;
+
+        Map<String, Float> sortedWordFrequencies = wordFrequencies.entrySet().stream()
+        .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+        .limit(maxSize)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        sortedWordFrequencies.forEach(
+            (word, frequency) -> {
+                System.out.printf("%s: %f\n", word, frequency);
+            }
+        );
     }
 }
