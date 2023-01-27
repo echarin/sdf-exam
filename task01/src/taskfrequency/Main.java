@@ -1,6 +1,5 @@
 package taskfrequency;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,9 +8,8 @@ public class Main {
         if (args.length != 1) {
             System.out.println("Usage: <file_name.txt>");
         } else {
-            String filePath = Constants.DEFAULT_DIRECTORY + File.separator + args[0];
             try {
-                List<String> wordList = TextProcessor.buffAddWordsToList(filePath);
+                List<String> wordList = TextProcessor.buffAddWordsToList(args[0]);
                 TextProcessor.calculateWordFrequency(wordList);
             } catch (IOException e) {
                 System.out.println("File not found.");
