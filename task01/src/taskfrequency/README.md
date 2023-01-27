@@ -1,6 +1,6 @@
 # taskfrequency
 
-To use: `<text_file>`
+To use: `java -cp <classes_directory> taskfrequency.Main <text_file>`
 
 The file must be in the base directory.
 
